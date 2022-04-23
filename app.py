@@ -1,6 +1,7 @@
 import json
 import random
 import time
+import os
 
 from flask import Flask, send_from_directory, abort
 from flask import request, jsonify
@@ -19,24 +20,24 @@ mysql = MySQL(app)
 IMAGE_DIRECTORY = "patterns"
 
 
-def image_index_encoder(image_lst, seed):
-    encoded_img_lst = []
-    for i in image_lst:
-        encoded_img_lst.append(int((i + seed) / 9))
-
-    save_str = ""
-    for i in encoded_img_lst:
-        save_str += f"{i}, "
-
-    return save_str[:-2]
-
-
-def image_index_decoder(image_lst, seed):
-    decoded_img_lst = []
-    for i in image_lst:
-        decoded_img_lst.append((i * 9) - seed)
-
-    return decoded_img_lst
+# def image_index_encoder(image_lst, seed):
+#     encoded_img_lst = []
+#     for i in image_lst:
+#         encoded_img_lst.append(int((i + seed) / 9))
+#
+#     save_str = ""
+#     for i in encoded_img_lst:
+#         save_str += f"{i}, "
+#
+#     return save_str[:-2]
+#
+#
+# def image_index_decoder(image_lst, seed):
+#     decoded_img_lst = []
+#     for i in image_lst:
+#         decoded_img_lst.append((i * 9) - seed)
+#
+#     return decoded_img_lst
 
 
 def image_save_format(image_lst):
@@ -54,7 +55,7 @@ def register_generate_pattern():
     fullname = credentials["fullname"]
     seed = int(time.time())
 
-    images = random.sample(range(1, 10), 9)
+    images = random.sample(range(1, len(os.listdir("./patterns")) + 1), 9)
 
     cursor = mysql.connection.cursor()
     cursor.execute('''SELECT email FROM users WHERE email="{}" LIMIT 1'''.format(email))
