@@ -6,11 +6,11 @@ import os
 from flask import Flask, send_from_directory, abort
 from flask import request, jsonify
 from flask_mysqldb import MySQL
-from flask_cors import CORS, cross_origin
+# from flask_cors import CORS, cross_origin
 import hashlib
 
 app = Flask(__name__)
-CORS(app, resources={r"/": {"origins": "http://localhost:5500"}})
+# CORS(app, resources={r"/": {"origins": "http://localhost:5500"}})
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -51,7 +51,7 @@ def image_save_format(image_lst):
 
 
 @app.route('/register/generate', methods=['POST'])
-@cross_origin()
+# @cross_origin()
 def register_generate_pattern():
     credentials = json.loads(request.data)
     email = credentials["email"]
@@ -82,14 +82,15 @@ def register_generate_pattern():
     links = []
     for i in images:
         links.append(f"http://localhost:5000/get-files/{i}.jpg")
-
-    return jsonify({
+    response = jsonify({
         "Images": links
     })
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route('/register', methods=['POST'])
-@cross_origin()
+# @cross_origin()
 def register():
     credentials = json.loads(request.data)
     email = credentials["email"]
@@ -106,21 +107,24 @@ def register():
         mysql.connection.commit()
     else:
         cursor.close()
-        return jsonify({
+        response = jsonify({
             "Response": 401,
             "Message": "User does not exist"
         })
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
 
     cursor.close()
-
-    return jsonify({
+    response = jsonify({
         "Response": 200,
         "Images": "Registration successful"
     })
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route('/login/get', methods=['POST'])
-@cross_origin()
+# @cross_origin()
 def get_images_for_login():
     credentials = json.loads(request.data)
     username = credentials['email']
@@ -141,11 +145,13 @@ def get_images_for_login():
 
     response_dict["Images"] = users
 
-    return jsonify(response_dict)
+    response = jsonify(response_dict)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route('/login', methods=['POST'])
-@cross_origin()
+# @cross_origin()
 def login():
     credentials = json.loads(request.data)
     email = credentials["email"]
@@ -158,28 +164,34 @@ def login():
     data = cursor.fetchall()
 
     if len(data) == 1:
-        return jsonify({
+        response = jsonify({
             "Response": 200,
             "Message": "Login successful"
         })
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
 
-    return jsonify({
+    response = jsonify({
         "Response": 401,
         "Message": "Unauthorized"
     })
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route('/get-files/<path:path>', methods=['GET', 'POST'])
-@cross_origin()
+# @cross_origin()
 def get_files(path):
     try:
-        return send_from_directory(IMAGE_DIRECTORY, path)
+        response = send_from_directory(IMAGE_DIRECTORY, path)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
     except FileNotFoundError:
         abort(404)
 
 
 @app.route('/users', methods=['GET'])
-@cross_origin()
+# @cross_origin()
 def get_all_users():
     cursor = mysql.connection.cursor()
     cursor.execute('''SELECT full_name, email FROM users''')
@@ -200,7 +212,9 @@ def get_all_users():
 
     response_dict["Users"] = users
 
-    return jsonify(response_dict)
+    response = jsonify(response_dict)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 if __name__ == '__main__':
