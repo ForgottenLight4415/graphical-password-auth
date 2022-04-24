@@ -50,14 +50,6 @@ def image_save_format(image_lst):
     return save_str[:-2]
 
 
-@app.route('/test', methods=['GET', 'POST'])
-def test():
-    response = jsonify({
-        "Message": "I don't know what the fuck is going on but okay!"
-    })
-    return response
-
-
 @app.route('/register/generate', methods=['POST'])
 def register_generate_pattern():
     credentials = json.loads(request.data)
