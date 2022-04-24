@@ -181,6 +181,16 @@ def get_files(path):
         abort(404)
 
 
+@app.route('/app/<path:path>', methods=['GET', 'POST'])
+# @cross_origin()
+def render_pages(path):
+    try:
+        response = send_from_directory("app", path)
+        return response
+    except FileNotFoundError:
+        abort(404)
+
+
 @app.route('/users', methods=['GET'])
 # @cross_origin()
 def get_all_users():
