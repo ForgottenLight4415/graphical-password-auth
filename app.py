@@ -6,11 +6,11 @@ import os
 from flask import Flask, send_from_directory, abort
 from flask import request, jsonify
 from flask_mysqldb import MySQL
-# from flask_cors import CORS, cross_origin
+from flask_cors import CORS, cross_origin
 import hashlib
 
 app = Flask(__name__)
-# CORS(app, resources={r"/": {"origins": "http://localhost:5500"}})
+CORS(app)
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -51,7 +51,7 @@ def image_save_format(image_lst):
 
 
 @app.route('/register/generate', methods=['POST'])
-# @cross_origin()
+@cross_origin(origin='*')
 def register_generate_pattern():
     credentials = json.loads(request.data)
     email = credentials["email"]
