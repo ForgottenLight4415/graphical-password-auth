@@ -10,7 +10,7 @@ from flask_cors import CORS, cross_origin
 import hashlib
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/": {"origins": "http://localhost:5500"}})
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
