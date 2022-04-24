@@ -6,7 +6,7 @@ import os
 from flask import Flask, send_from_directory, abort
 from flask import request, jsonify
 from flask_mysqldb import MySQL
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import hashlib
 
 app = Flask(__name__)
@@ -51,6 +51,7 @@ def image_save_format(image_lst):
 
 
 @app.route('/register/generate', methods=['POST'])
+@cross_origin()
 def register_generate_pattern():
     credentials = json.loads(request.data)
     email = credentials["email"]
@@ -88,6 +89,7 @@ def register_generate_pattern():
 
 
 @app.route('/register', methods=['POST'])
+@cross_origin()
 def register():
     credentials = json.loads(request.data)
     email = credentials["email"]
@@ -118,6 +120,7 @@ def register():
 
 
 @app.route('/login/get', methods=['POST'])
+@cross_origin()
 def get_images_for_login():
     credentials = json.loads(request.data)
     username = credentials['email']
@@ -142,6 +145,7 @@ def get_images_for_login():
 
 
 @app.route('/login', methods=['POST'])
+@cross_origin()
 def login():
     credentials = json.loads(request.data)
     email = credentials["email"]
@@ -166,6 +170,7 @@ def login():
 
 
 @app.route('/get-files/<path:path>', methods=['GET', 'POST'])
+@cross_origin()
 def get_files(path):
     try:
         return send_from_directory(IMAGE_DIRECTORY, path)
@@ -174,6 +179,7 @@ def get_files(path):
 
 
 @app.route('/users', methods=['GET'])
+@cross_origin()
 def get_all_users():
     cursor = mysql.connection.cursor()
     cursor.execute('''SELECT full_name, email FROM users''')
