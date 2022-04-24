@@ -50,6 +50,16 @@ def image_save_format(image_lst):
     return save_str[:-2]
 
 
+@app.route('/test', methods=['GET', 'POST'])
+@cross_origin(origin='*')
+def test():
+    response = jsonify({
+        "Message": "I don't know what the fuck is going on but okay!"
+    })
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
 @app.route('/register/generate', methods=['POST'])
 @cross_origin(origin='*')
 def register_generate_pattern():
@@ -71,9 +81,11 @@ def register_generate_pattern():
         mysql.connection.commit()
     else:
         cursor.close()
-        return jsonify({
+        response = jsonify({
             "Message": "User already exists"
         })
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
 
     cursor.close()
 
