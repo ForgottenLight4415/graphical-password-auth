@@ -51,17 +51,14 @@ def image_save_format(image_lst):
 
 
 @app.route('/test', methods=['GET', 'POST'])
-@cross_origin(origin='*')
 def test():
     response = jsonify({
         "Message": "I don't know what the fuck is going on but okay!"
     })
-    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 
 @app.route('/register/generate', methods=['POST'])
-@cross_origin(origin='*')
 def register_generate_pattern():
     credentials = json.loads(request.data)
     email = credentials["email"]
@@ -84,7 +81,6 @@ def register_generate_pattern():
         response = jsonify({
             "Message": "User already exists"
         })
-        response.headers.add('Access-Control-Allow-Origin', '*')
         return response
 
     cursor.close()
@@ -97,12 +93,10 @@ def register_generate_pattern():
     response = jsonify({
         "Images": links
     })
-    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 
 @app.route('/register', methods=['POST'])
-# @cross_origin()
 def register():
     credentials = json.loads(request.data)
     email = credentials["email"]
@@ -123,7 +117,6 @@ def register():
             "Response": 401,
             "Message": "User does not exist"
         })
-        response.headers.add('Access-Control-Allow-Origin', '*')
         return response
 
     cursor.close()
@@ -131,12 +124,10 @@ def register():
         "Response": 200,
         "Images": "Registration successful"
     })
-    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 
 @app.route('/login/get', methods=['POST'])
-# @cross_origin()
 def get_images_for_login():
     credentials = json.loads(request.data)
     username = credentials['email']
@@ -158,7 +149,6 @@ def get_images_for_login():
     response_dict["Images"] = users
 
     response = jsonify(response_dict)
-    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 
@@ -180,14 +170,12 @@ def login():
             "Response": 200,
             "Message": "Login successful"
         })
-        response.headers.add('Access-Control-Allow-Origin', '*')
         return response
 
     response = jsonify({
         "Response": 401,
         "Message": "Unauthorized"
     })
-    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 
@@ -196,7 +184,6 @@ def login():
 def get_files(path):
     try:
         response = send_from_directory(IMAGE_DIRECTORY, path)
-        response.headers.add('Access-Control-Allow-Origin', '*')
         return response
     except FileNotFoundError:
         abort(404)
@@ -225,7 +212,6 @@ def get_all_users():
     response_dict["Users"] = users
 
     response = jsonify(response_dict)
-    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 
