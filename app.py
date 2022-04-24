@@ -6,9 +6,11 @@ import os
 from flask import Flask, send_from_directory, abort
 from flask import request, jsonify
 from flask_mysqldb import MySQL
+from flask_cors import CORS
 import hashlib
 
 app = Flask(__name__)
+CORS(app)
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
