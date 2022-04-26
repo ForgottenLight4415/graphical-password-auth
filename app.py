@@ -37,7 +37,7 @@ def generate_images_for_registration():
     fullname = credentials["fullname"]
 
     cursor = mysql.connection.cursor(prepared=True)
-    cursor.execute("""SELECT email FROM users WHERE email = %s LIMIT 1""", email)
+    cursor.execute("""SELECT email FROM users WHERE email = %s LIMIT 1""", (email,))
     data = cursor.fetchone()
 
     if data is None:
@@ -45,7 +45,7 @@ def generate_images_for_registration():
         images = random.sample(range(1, len(os.listdir("./patterns")) + 1), 9)
         cursor.execute(
             """INSERT INTO users (full_name, email, seed, pattern_ind) VALUES (%s, %s, %s, %s)""",
-            fullname, email, seed, format_image_save(images)
+            (fullname, email, seed, format_image_save(images))
         )
         mysql.connection.commit()
 
@@ -74,14 +74,13 @@ def register():
     pattern_sequence = credentials["sequence"]
 
     cursor = mysql.connection.cursor(prepared=True)
-    cursor.execute("""SELECT email FROM users WHERE email= %s LIMIT 1""", email)
+    cursor.execute("""SELECT email FROM users WHERE email= %s LIMIT 1""", (email,))
     data = cursor.fetchone()
 
     if data is not None:
         cursor.execute(
             '''UPDATE users SET password= %s WHERE email= %s''',
-            hashlib.sha256(pattern_sequence.encode('utf-8')).hexdigest(),
-            email
+            (hashlib.sha256(pattern_sequence.encode('utf-8')).hexdigest(), email)
         )
         mysql.connection.commit()
         response = jsonify({
@@ -105,7 +104,7 @@ def get_images_for_login():
     email = credentials['email']
 
     cursor = mysql.connection.cursor()
-    cursor.execute("""SELECT pattern_ind FROM users WHERE email= %s LIMIT 1""", email)
+    cursor.execute("""SELECT pattern_ind FROM users WHERE email= %s LIMIT 1""", (email,))
     data = cursor.fetchone()
     cursor.close()
 
@@ -115,9 +114,8 @@ def get_images_for_login():
         response_dict['Message'] = "Get users successful"
 
         pattern_images = []
-        for m in data:
-            for i in m[0].split(','):
-                pattern_images.append(f"http://localhost:5000/get-files/{i.strip()}.jpg")
+        for i in data[0].split(','):
+            pattern_images.append(f"http://localhost:5000/get-files/{i.strip()}.jpg")
 
         random.shuffle(pattern_images)
         response_dict["Images"] = pattern_images
@@ -141,8 +139,7 @@ def login():
 
     cursor = mysql.connection.cursor()
     cursor.execute("""SELECT email FROM users WHERE email= %s AND password= %s LIMIT 1""",
-                   email,
-                   hashlib.sha256(sequence.encode('utf-8')).hexdigest()
+                   (email, hashlib.sha256(sequence.encode('utf-8')).hexdigest())
                    )
     data = cursor.fetchone()
 
