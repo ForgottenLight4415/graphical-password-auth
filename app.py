@@ -48,113 +48,120 @@ def generate_images_for_registration():
             fullname, email, seed, format_image_save(images)
         )
         mysql.connection.commit()
-        cursor.close()
 
         # Generating patterns
         links = []
         for i in images:
             links.append(f"http://localhost:5000/get-files/{i}.jpg")
-        random.shuffle(links)
         response = jsonify({
             "Images": links
         })
-        response.status_code = 200
-        return response
     else:
-        cursor.close()
         response = jsonify({
             "Response": "409",
             "Message": "User already exists"
         })
         response.status_code = 409
-        return response
+
+    cursor.close()
+    return response
 
 
 @app.route('/register', methods=['POST'])
 def register():
     credentials = json.loads(request.data)
     email = credentials["email"]
-    sequence = credentials["sequence"]
+    pattern_sequence = credentials["sequence"]
 
-    cursor = mysql.connection.cursor()
-    cursor.execute('''SELECT email FROM users WHERE email="{}" LIMIT 1'''.format(email))
-    data = cursor.fetchall()
+    cursor = mysql.connection.cursor(prepared=True)
+    cursor.execute("""SELECT email FROM users WHERE email= %s LIMIT 1""", email)
+    data = cursor.fetchone()
 
-    if len(data) != 0:
+    if data is not None:
         cursor.execute(
-            '''UPDATE users SET password="{}" WHERE email="{}"'''.format(hashlib.sha256(sequence.encode('utf-8'))
-                                                                         .hexdigest(), email))
+            '''UPDATE users SET password= %s WHERE email= %s''',
+            hashlib.sha256(pattern_sequence.encode('utf-8')).hexdigest(),
+            email
+        )
         mysql.connection.commit()
+        response = jsonify({
+            "Response": 200,
+            "Images": "Registration successful"
+        })
     else:
-        cursor.close()
         response = jsonify({
             "Response": 401,
             "Message": "User does not exist"
         })
-        return response
+        response.status_code = 401
 
     cursor.close()
-    response = jsonify({
-        "Response": 200,
-        "Images": "Registration successful"
-    })
     return response
 
 
 @app.route('/login/get', methods=['POST'])
 def get_images_for_login():
     credentials = json.loads(request.data)
-    username = credentials['email']
+    email = credentials['email']
 
     cursor = mysql.connection.cursor()
-    cursor.execute('''SELECT pattern_ind FROM users WHERE email="{}"'''.format(username))
-    data = cursor.fetchall()
+    cursor.execute("""SELECT pattern_ind FROM users WHERE email= %s LIMIT 1""", email)
+    data = cursor.fetchone()
     cursor.close()
 
-    response_dict = dict()
-    response_dict['Response'] = 200
-    response_dict['Message'] = "Get users successful"
+    if data is not None:
+        response_dict = dict()
+        response_dict['Response'] = 200
+        response_dict['Message'] = "Get users successful"
 
-    users = []
-    for m in data:
-        for i in m[0].split(','):
-            users.append(f"http://localhost:5000/get-files/{i.strip()}.jpg")
+        pattern_images = []
+        for m in data:
+            for i in m[0].split(','):
+                pattern_images.append(f"http://localhost:5000/get-files/{i.strip()}.jpg")
 
-    response_dict["Images"] = users
+        random.shuffle(pattern_images)
+        response_dict["Images"] = pattern_images
 
-    response = jsonify(response_dict)
+        response = jsonify(response_dict)
+    else:
+        response = jsonify({
+            "Response": 401,
+            "Message": "User does not exist"
+        })
+        response.status_code = 401
+
     return response
 
 
 @app.route('/login', methods=['POST'])
-# @cross_origin()
 def login():
     credentials = json.loads(request.data)
     email = credentials["email"]
     sequence = credentials["sequence"]
 
     cursor = mysql.connection.cursor()
-    cursor.execute('''SELECT email FROM users WHERE email="{}" AND password="{}" LIMIT 1'''
-                   .format(email, hashlib.sha256(sequence.encode('utf-8'))
-                           .hexdigest()))
-    data = cursor.fetchall()
+    cursor.execute("""SELECT email FROM users WHERE email= %s AND password= %s LIMIT 1""",
+                   email,
+                   hashlib.sha256(sequence.encode('utf-8')).hexdigest()
+                   )
+    data = cursor.fetchone()
 
-    if len(data) == 1:
+    if data is not None:
         response = jsonify({
             "Response": 200,
             "Message": "Login successful"
         })
-        return response
+    else:
+        response = jsonify({
+            "Response": 401,
+            "Message": "Unauthorized"
+        })
+        response.status_code = 401
 
-    response = jsonify({
-        "Response": 401,
-        "Message": "Unauthorized"
-    })
     return response
 
 
 @app.route('/get-files/<path:path>', methods=['GET', 'POST'])
-# @cross_origin()
 def get_files(path):
     try:
         response = send_from_directory(IMAGE_DIRECTORY, path)
@@ -163,8 +170,7 @@ def get_files(path):
         abort(404)
 
 
-@app.route('/app/<path:path>', methods=['GET', 'POST'])
-# @cross_origin()
+@app.route('/app/<path:path>', methods=['GET'])
 def render_pages(path):
     try:
         response = send_from_directory("app", path)
@@ -174,7 +180,6 @@ def render_pages(path):
 
 
 @app.route('/users', methods=['GET'])
-# @cross_origin()
 def get_all_users():
     cursor = mysql.connection.cursor()
     cursor.execute('''SELECT full_name, email FROM users''')
