@@ -36,7 +36,7 @@ def generate_images_for_registration():
     email = credentials["email"]
     fullname = credentials["fullname"]
 
-    cursor = mysql.connection.cursor(prepared=True)
+    cursor = mysql.connection.cursor()
     cursor.execute("""SELECT email FROM users WHERE email = %s LIMIT 1""", (email,))
     data = cursor.fetchone()
 
@@ -73,7 +73,7 @@ def register():
     email = credentials["email"]
     pattern_sequence = credentials["sequence"]
 
-    cursor = mysql.connection.cursor(prepared=True)
+    cursor = mysql.connection.cursor()
     cursor.execute("""SELECT email FROM users WHERE email= %s LIMIT 1""", (email,))
     data = cursor.fetchone()
 
