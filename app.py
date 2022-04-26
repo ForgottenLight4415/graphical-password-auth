@@ -6,7 +6,7 @@ import os
 from flask import Flask, send_from_directory, abort
 from flask import request, jsonify
 from flask_mysqldb import MySQL
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 import hashlib
 
 app = Flask(__name__)
@@ -22,27 +22,7 @@ mysql = MySQL(app)
 IMAGE_DIRECTORY = "patterns"
 
 
-# def image_index_encoder(image_lst, seed):
-#     encoded_img_lst = []
-#     for i in image_lst:
-#         encoded_img_lst.append(int((i + seed) / 9))
-#
-#     save_str = ""
-#     for i in encoded_img_lst:
-#         save_str += f"{i}, "
-#
-#     return save_str[:-2]
-#
-#
-# def image_index_decoder(image_lst, seed):
-#     decoded_img_lst = []
-#     for i in image_lst:
-#         decoded_img_lst.append((i * 9) - seed)
-#
-#     return decoded_img_lst
-
-
-def image_save_format(image_lst):
+def format_image_save(image_lst):
     save_str = ""
     for i in image_lst:
         save_str += f"{i}, "
@@ -51,41 +31,43 @@ def image_save_format(image_lst):
 
 
 @app.route('/register/generate', methods=['POST'])
-def register_generate_pattern():
+def generate_images_for_registration():
     credentials = json.loads(request.data)
     email = credentials["email"]
     fullname = credentials["fullname"]
-    seed = int(time.time())
 
-    images = random.sample(range(1, len(os.listdir("./patterns")) + 1), 9)
+    cursor = mysql.connection.cursor(prepared=True)
+    cursor.execute("""SELECT email FROM users WHERE email = %s LIMIT 1""", email)
+    data = cursor.fetchone()
 
-    cursor = mysql.connection.cursor()
-    cursor.execute('''SELECT email FROM users WHERE email="{}" LIMIT 1'''.format(email))
-    data = cursor.fetchall()
-
-    if len(data) == 0:
+    if data is None:
+        seed = int(time.time())
+        images = random.sample(range(1, len(os.listdir("./patterns")) + 1), 9)
         cursor.execute(
-            '''INSERT INTO users (full_name, email, seed, pattern_ind) VALUES ("{}", "{}", "{}", "{}")'''
-                .format(fullname, email, seed, image_save_format(images)))
+            """INSERT INTO users (full_name, email, seed, pattern_ind) VALUES (%s, %s, %s, %s)""",
+            fullname, email, seed, format_image_save(images)
+        )
         mysql.connection.commit()
+        cursor.close()
+
+        # Generating patterns
+        links = []
+        for i in images:
+            links.append(f"http://localhost:5000/get-files/{i}.jpg")
+        random.shuffle(links)
+        response = jsonify({
+            "Images": links
+        })
+        response.status_code = 200
+        return response
     else:
         cursor.close()
         response = jsonify({
+            "Response": "409",
             "Message": "User already exists"
         })
+        response.status_code = 409
         return response
-
-    cursor.close()
-
-    # Generating patterns
-
-    links = []
-    for i in images:
-        links.append(f"http://localhost:5000/get-files/{i}.jpg")
-    response = jsonify({
-        "Images": links
-    })
-    return response
 
 
 @app.route('/register', methods=['POST'])
