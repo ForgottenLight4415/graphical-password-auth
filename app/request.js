@@ -2,6 +2,7 @@ const axios = require('axios')
 
 module.exports.register = (fullname, email) => {
     return new Promise((resolve, reject) => {
+
         axios.post('http://localhost:5000/register/generate', { "fullname": fullname, "email": email })
             .then((res) => {
                 const { refreshToken } = res.data

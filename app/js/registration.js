@@ -3,6 +3,7 @@ const registrationFormEL = document.getElementById("RegistrationForm");
 const nameEl = document.getElementById("name");
 const emailEl = document.getElementById("email");
 
+
 registrationFormEL.addEventListener("submit", function (e) {
     e.preventDefault();
     var myModal = new bootstrap.Modal(document.getElementById("register-modal"));
@@ -36,7 +37,7 @@ registrationFormEL.addEventListener("submit", function (e) {
                     row1Data =
                         row1Data +
                         `<div class="col">
-                                        <button class="btn btn-bg" id="${dataImages[i].ImageId}" type="button">
+                                        <button class="amisha btn btn-bg" id="${dataImages[i].ImageId}" type="button">
                                             <img src="${dataImages[i].ImageUrl}" class="img-button" alt="10">
                                         </button>
                                     </div>`;
@@ -47,7 +48,7 @@ registrationFormEL.addEventListener("submit", function (e) {
                     row2Data =
                         row2Data +
                         `<div class="col">
-                                        <button class="btn btn-bg" id="${dataImages[i].ImageId}" type="button">
+                                        <button class="amisha btn btn-bg" id="${dataImages[i].ImageId}" type="button">
                                             <img src="${dataImages[i].ImageUrl}" class="img-button" alt="10">
                                         </button>
                                     </div>`;
@@ -56,7 +57,7 @@ registrationFormEL.addEventListener("submit", function (e) {
                     row3Data =
                         row3Data +
                         `<div class="col">
-                                        <button class="btn btn-bg" id="${dataImages[i].ImageId}" type="button">
+                                        <button class="amisha btn btn-bg" id="${dataImages[i].ImageId}" type="button">
                                             <img src="${dataImages[i].ImageUrl}" class="img-button" alt="10">
                                         </button>
                                     </div>`;
@@ -66,7 +67,7 @@ registrationFormEL.addEventListener("submit", function (e) {
                 row1.innerHTML = row1Data;
                 row2.innerHTML = row2Data;
                 row3.innerHTML = row3Data;
-                let btns = document.querySelectorAll('button');
+                let btns = document.querySelectorAll('button.amisha');
                 let sequence = [];
 
                 for (i of btns) {
@@ -76,10 +77,66 @@ registrationFormEL.addEventListener("submit", function (e) {
                         console.log(sequence)
                     });
                 }
+                let registerBtn = document.getElementById('register-btn');
+                registerBtn.addEventListener('click', function () {
+                    axios
+                        .post("http://localhost:5000/register", {
+                            sequence: sequence,
+                            email: email,
+
+                        })
+                    console.log("heloo")
+                })
+
 
                 myModal.show();
+
+                // $(document).ready(function () {
+                //     $('button.btnRegister').on('click', function (e) {
+                //         e.preventDefault();
+                //         console.log("heloo world")
+                //     });
+                // });
             }
         })
         .catch((err) => { });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// $("#register-modal").on('click', '#register-btn', function () {
+
+//     console.log("Hello world");
+// });
+// const btnRegister = document.getElementById("register-btn")
+// // console.log(btnRegister)
+// btnRegister.addEventListener("submit", function (e) {
+//     e.preventDefault();
+//     const email = emailEl.value;
+//     console.log("hello world")
+//     // const sequence = nameEl.value;
+axios
+    .post("http://localhost:5000/register", {
+        sequence: sequence,
+        email: email,
+
+    })
+// });
 
