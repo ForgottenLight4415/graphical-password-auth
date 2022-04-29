@@ -150,7 +150,7 @@ def get_images_for_login():
 def login():
     credentials = json.loads(request.data)
     email = credentials["email"]
-    sequence = credentials["sequence"]
+    sequence = format_image_save(credentials["sequence"])
 
     cursor = mysql.connection.cursor()
     cursor.execute("""SELECT email, full_name FROM users WHERE email= %s AND password= %s LIMIT 1""",
