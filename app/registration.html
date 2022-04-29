@@ -40,7 +40,8 @@
                                     <!-- Error Message -->
                                 </div>
                                 <div class="col-1-lg-6 login-btm login-button">
-                                    <button type="submit" class="btn btn-lg btn-outline-primary" >
+                                    <button type="submit" class="btn btn-lg btn-outline-primary"
+                                        data-bs-target="#register-modal">
                                         Register
                                     </button>
                                 </div>
@@ -52,7 +53,7 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        <div class="modal fade" id="register-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog modal-dialog-centered modal-parent">
                 <div class="modal-content modal-style">
@@ -63,79 +64,28 @@
                         <button type="button" class="btn-close btn-close-white modal-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <div class="modal-body ">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col">
-                                    <button class="btn btn-bg" type="button">
-                                        <img src="/get-files/10.jpg" class="img-button"
-                                            alt="10">
-                                    </button>
-
+                    <div class="modal-body  ">
+                        <div class="image">
+                            <img src="" , alt="">
+                            <div class="container">
+                                <div class="row first-row" id="first-row">
                                 </div>
-                                <div class="col">
-                                    <button class="btn btn-bg" type="button">
-                                        <img src="/get-files/1003.jpg" class="img-button"
-                                            alt="1003">
-                                    </button>
+                                <div class="row my-2 second-row" id="second-row">
                                 </div>
-                                <div class="col">
-                                    <button class="btn btn-bg" type="button">
-                                        <img src="/get-files/1016.jpg" class="img-button"
-                                            alt="1016">
-                                    </button>
+                                <div class="row third-row" id="third-row">
                                 </div>
                             </div>
-                            <div class="row my-2">
-                                <div class="col">
-                                    <button class="btn btn-bg" type="button">
-                                        <img src="/get-files/1019.jpg" class="img-button"
-                                            alt="1019">
-                                    </button>
-                                </div>
-                                <div class="col">
-                                    <button class="btn btn-bg" type="button">
-                                        <img src="/get-files/1031.jpg" class="img-button"
-                                            alt="1031">
-                                    </button>
-                                </div>
-                                <div class="col">
-                                    <button class="btn btn-bg" type="button">
-                                        <img src="/get-files/1026.jpg" class="img-button"
-                                            alt="1016">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <button class="btn btn-bg" type="button">
-                                        <img src="/get-files/1001.jpg" class="img-button"
-                                            alt="1001">
-                                    </button>
-                                </div>
-                                <div class="col">
-                                    <button class="btn btn-bg" type="button">
-                                        <img src="/get-files/111.jpg" class="img-button"
-                                            alt="111">
-                                    </button>
-                                </div>
-                                <div class="col">
-                                    <button class="btn btn-bg" type="button">
-                                        <img src="/get-files/200.jpg" class="img-button"
-                                            alt="200">
-                                    </button>
-                                </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-lg btn-outline verify-btn" data-bs-dismiss="modal">
+                                    Close
+                                </button>
+                                <button type="button" class="btn btn-lg btn-outline verify-btn"
+                                    onclick="location.href='index.html'">
+                                    Register
+                                </button>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-lg btn-outline verify-btn" data-bs-dismiss="modal">
-                                Close
-                            </button>
-                            <button type="button" class="btn btn-lg btn-outline verify-btn"
-                                onclick="location.href='index.html'">
-                                Register
-                            </button>
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
