@@ -30,6 +30,15 @@ def format_image_save(image_lst):
     return save_str[:-2]
 
 
+@app.route('/', methods=['GET'])
+def home():
+    try:
+        response = send_from_directory("app", "Login.html")
+        return response
+    except FileNotFoundError:
+        abort(404)
+
+
 @app.route('/register/generate', methods=['POST'])
 def generate_images_for_registration():
     credentials = json.loads(request.data)
@@ -177,8 +186,8 @@ def get_files(path):
         abort(404)
 
 
-@app.route('/app/<path:path>', methods=['GET'])
-def render_pages(path):
+@app.route('/<path:path>', methods=['GET'])
+def render_pages_b(path):
     try:
         response = send_from_directory("app", path)
         return response
