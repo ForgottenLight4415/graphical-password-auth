@@ -60,9 +60,7 @@ loginFormEL.addEventListener("submit", function (e) {
 
         for (i of btns) {
           i.addEventListener("click", function () {
-            console.log(this.id);
             sequence.push(this.id.trim());
-            console.log(sequence);
           });
         }
         let loginBtn = document.getElementById("login-btn");
@@ -76,6 +74,13 @@ loginFormEL.addEventListener("submit", function (e) {
           if (res.status == 200) {
             console.log(res);
             window.location.href = "homepage.html";
+          }
+        })
+        .catch((e) => {
+          sequence.length = 0;
+          myModal.hide();
+          if (e.response.status === 401) {
+             alert("Unauthenticated")
           }
         });
     });

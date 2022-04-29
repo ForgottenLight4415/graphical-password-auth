@@ -83,7 +83,14 @@ registrationFormEL.addEventListener("submit", function (e) {
                 console.log(res);
                 window.location.href = "Login.html";
               }
-            });
+            })
+              .catch((e) => {
+                sequence.length = 0;
+                myModal.hide();
+                if (e.response.status === 409) {
+                   alert("Account already exists")
+                }
+              });
         });
 
         myModal.show();
