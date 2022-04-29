@@ -3,15 +3,15 @@
     const tableBody = document.querySelector('#users tbody')
     axios.get('http://localhost:5000/users')
     .then(res => {
-        const members = res.data
+        const members = res.data.users
         console.log(members)
+        let number = 1
         for (const member of members) {
             const tableRow = document.createElement('tr')
             tableRow.innerHTML = `
-            <div class="d-flex flex-column justify-content-center">
-            <h6 class="mb-0 text-xs">${member.name}</h6>
-            <p class="text-xs text-secondary mb-0">${member.email}</p>
-            </div>
+            <td>${number++}</td>
+            <td>${member.fullname}</td>
+            <td>${member.email}</td>
             `
             tableBody.appendChild(tableRow)
         }
