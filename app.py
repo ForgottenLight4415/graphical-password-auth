@@ -27,7 +27,7 @@ def format_image_save(image_lst):
     for i in image_lst:
         save_str += f"{i}, "
 
-    return save_str[:-2]
+    return save_str[:-2].strip()
 
 
 @app.route('/', methods=['GET'])
@@ -151,7 +151,6 @@ def login():
     credentials = json.loads(request.data)
     email = credentials["email"]
     sequence = format_image_save(credentials["sequence"])
-
     cursor = mysql.connection.cursor()
     cursor.execute("""SELECT email, full_name FROM users WHERE email= %s AND password= %s LIMIT 1""",
                    (email, hashlib.sha256(sequence.encode('utf-8')).hexdigest())
