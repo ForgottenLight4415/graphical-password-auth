@@ -84,16 +84,14 @@ def register():
     credentials = json.loads(request.data)
     email = credentials["email"]
     pattern_sequence = format_image_save(credentials["sequence"])
+    hs = hashlib.sha256(pattern_sequence.encode('utf-8')).hexdigest()
 
     cursor = mysql.connection.cursor()
     cursor.execute("""SELECT email FROM users WHERE email= %s LIMIT 1""", (email,))
     data = cursor.fetchone()
 
     if data is not None:
-        cursor.execute(
-            '''UPDATE users SET password= %s WHERE email= %s''',
-            (hashlib.sha256(pattern_sequence.encode('utf-8')).hexdigest(), email)
-        )
+        cursor.execute('''UPDATE users SET password= %s WHERE email= %s''', (hs, email))
         mysql.connection.commit()
         response = jsonify({
             "Response": 200,
@@ -152,11 +150,8 @@ def login():
     email = credentials["email"]
     sequence = format_image_save(credentials["sequence"])
     hs = hashlib.sha256(sequence.encode('utf-8')).hexdigest()
-    print(hs)
     cursor = mysql.connection.cursor()
-    cursor.execute("""SELECT email, full_name FROM users WHERE email= %s AND password= %s LIMIT 1""",
-                   (email, hs)
-                   )
+    cursor.execute("""SELECT email, full_name FROM users WHERE email= %s AND password= %s LIMIT 1""", (email, hs))
     data = cursor.fetchone()
 
     if data is not None:
