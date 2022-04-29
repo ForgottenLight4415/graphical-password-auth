@@ -13,7 +13,18 @@ module.exports.register = (fullname, email) => {
             })
     })
 }
-
+module.exports.getAllMembers = () => {
+    return new Promise((resolve, reject) => {
+        axios.get('http://localhost:5000/users')
+            .then((res) => {
+                console.log(res.data)
+                resolve(res.data);
+            })
+            .catch((err) => {
+                handleError(err, reject)
+            })
+    })
+}
 
 const handleError = (err, reject) => {
     if (err.response.status === 401) {
