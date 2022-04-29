@@ -85,7 +85,15 @@ registrationFormEL.addEventListener("submit", function (e) {
                             email: email,
 
                         })
-                    console.log("heloo")
+                        .then((res) => {
+                            if (res.status == 200) {
+                                console.log(res);
+                                window.location.href = 'Login.html';
+                            }
+
+                        });
+
+
                 })
 
 
