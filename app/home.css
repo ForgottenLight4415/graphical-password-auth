@@ -27,9 +27,17 @@ table{
  overflow: hidden;
 
 }
-td , th{
+
+th{
+padding : 15px 20px;
+text-align:center;
+align-item : center;
+
+}
+td{
  padding: 15px 20px;
  text-align: center;
+ align-item : center;
 }
 
 
