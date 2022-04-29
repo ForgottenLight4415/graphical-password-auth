@@ -144,7 +144,7 @@ def login():
     sequence = credentials["sequence"]
 
     cursor = mysql.connection.cursor()
-    cursor.execute("""SELECT email FROM users WHERE email= %s AND password= %s LIMIT 1""",
+    cursor.execute("""SELECT email, full_name FROM users WHERE email= %s AND password= %s LIMIT 1""",
                    (email, hashlib.sha256(sequence.encode('utf-8')).hexdigest())
                    )
     data = cursor.fetchone()
@@ -152,7 +152,11 @@ def login():
     if data is not None:
         response = jsonify({
             "Response": 200,
-            "Message": "Login successful"
+            "Message": "Login successful",
+            "User": {
+                "Email": data[0],
+                "FullName": data[1]
+            }
         })
     else:
         response = jsonify({
