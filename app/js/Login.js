@@ -30,7 +30,7 @@ loginFormEL.addEventListener("submit", function (e) {
           row1Data =
             row1Data +
             `<div class="col">
-                                        <button class="btn btn-bg" type="button">
+                                        <button class="btn btn-bg" id="${dataImages[i].ImageId}" type="button">
                                             <img src="${dataImages[i].ImageUrl}" class="img-button" alt="10">
                                         </button>
                                     </div>`;
@@ -39,7 +39,7 @@ loginFormEL.addEventListener("submit", function (e) {
           row2Data =
             row2Data +
             `<div class="col">
-                                        <button class="btn btn-bg" type="button">
+                                        <button class="btn btn-bg" id="${dataImages[i].ImageId}" type="button">
                                             <img src="${dataImages[i].ImageUrl}" class="img-button" alt="10">
                                         </button>
                                     </div>`;
@@ -48,7 +48,7 @@ loginFormEL.addEventListener("submit", function (e) {
           row3Data =
             row3Data +
             `<div class="col">
-                                        <button class="btn btn-bg" type="button">
+                                        <button class="btn btn-bg" id="${dataImages[i].ImageId}" type="button">
                                             <img src="${dataImages[i].ImageUrl}" class="img-button" alt="10">
                                         </button>
                                     </div>`;
@@ -57,6 +57,17 @@ loginFormEL.addEventListener("submit", function (e) {
         row1.innerHTML = row1Data;
         row2.innerHTML = row2Data;
         row3.innerHTML = row3Data;
+        let sequence=[];
+
+
+        let btns = document.querySelectorAll("button");
+        for (i of btns) {
+            i.addEventListener("click", function () {
+                console.log(this.id);
+                sequence.push(this.id);
+            console.log(sequence);
+          });
+        }
 
         myModal.show();
       }
