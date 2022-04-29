@@ -83,7 +83,7 @@ def generate_images_for_registration():
 def register():
     credentials = json.loads(request.data)
     email = credentials["email"]
-    pattern_sequence = credentials["sequence"]
+    pattern_sequence = format_image_save(credentials["sequence"])
 
     cursor = mysql.connection.cursor()
     cursor.execute("""SELECT email FROM users WHERE email= %s LIMIT 1""", (email,))
