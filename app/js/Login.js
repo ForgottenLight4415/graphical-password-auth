@@ -82,9 +82,6 @@ loginFormEL.addEventListener("submit", function (e) {
         .catch((e) => {
           sequence.length = 0;
           myModal.hide();
-          if (e.response.status === 401) {
-             alert("Unauthenticated")
-          }
         });
     });
         myModal.show();
