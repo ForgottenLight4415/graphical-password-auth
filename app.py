@@ -202,18 +202,18 @@ def get_all_users():
     cursor.close()
 
     response_dict = dict()
-    response_dict['Response'] = 200
-    response_dict['Message'] = "Get users successful"
+    response_dict['response'] = 200
+    response_dict['message'] = "Get users successful"
 
     users = []
     for user in data:
         user_dict = {
-            "FullName": user[0],
-            "Email": user[1]
+            "fullname": user[0],
+            "email": user[1]
         }
         users.append(user_dict)
 
-    response_dict["Users"] = users
+    response_dict["users"] = users
 
     response = jsonify(response_dict)
     return response
