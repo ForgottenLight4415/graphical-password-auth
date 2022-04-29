@@ -67,10 +67,13 @@ registrationFormEL.addEventListener("submit", function (e) {
                 row2.innerHTML = row2Data;
                 row3.innerHTML = row3Data;
                 let btns = document.querySelectorAll('button');
+                let sequence = [];
 
                 for (i of btns) {
                     i.addEventListener('click', function () {
-                        console.log(this);
+                        console.log(this.id);
+                        sequence.push(this.id);
+                        console.log(sequence)
                     });
                 }
 
