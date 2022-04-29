@@ -61,7 +61,7 @@ loginFormEL.addEventListener("submit", function (e) {
         for (i of btns) {
           i.addEventListener("click", function () {
             console.log(this.id);
-            sequence.push(this.id.trim());
+            sequence.push(this.id);
             console.log(sequence);
           });
         }
@@ -70,7 +70,7 @@ loginFormEL.addEventListener("submit", function (e) {
           axios
             .post("http://localhost:5000/login", {
               sequence: sequence,
-              email: Email,
+              email: email,
             })
         .then((res) => {
           if (res.status == 200) {
@@ -84,3 +84,10 @@ loginFormEL.addEventListener("submit", function (e) {
     })
     .catch((err) => {});
 });
+
+axios
+    .post("http://localhost:5000/login", {
+        sequence: sequence,
+        email: email,
+
+    })

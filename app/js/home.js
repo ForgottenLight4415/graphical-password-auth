@@ -1,11 +1,10 @@
-module.exports = () => {
-    if (document.body.classList.contains('homepage') === false) {
-        return;
-    }
+
     // Initial Members Request
     const tableBody = document.querySelector('#users tbody')
-    requests.getAllMembers().then(res => {
+    axios.get('http://localhost:5000/users')
+    .then(res => {
         const members = res.data
+        console.log(members)
         for (const member of members) {
             const tableRow = document.createElement('tr')
             tableRow.innerHTML = `
@@ -39,4 +38,3 @@ module.exports = () => {
             })
     })
 
-}
