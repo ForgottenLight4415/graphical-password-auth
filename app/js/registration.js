@@ -98,8 +98,3 @@ registrationFormEL.addEventListener("submit", function (e) {
     })
     .catch((err) => {});
 });
-
-axios.post("http://localhost:5000/register", {
-  sequence: sequence,
-  email: email,
-});
