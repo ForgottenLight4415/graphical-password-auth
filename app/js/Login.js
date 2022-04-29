@@ -1,18 +1,14 @@
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
-const registrationFormEL = document.getElementById("RegistrationForm");
-const nameEl = document.getElementById("name");
+const loginFormEL = document.getElementById("LoginForm");
 const emailEl = document.getElementById("email");
+// const passwordEl = document.getElementById('password');
 
-registrationFormEL.addEventListener("submit", function (e) {
+loginFormEL.addEventListener("submit", function (e) {
   e.preventDefault();
-  var myModal = new bootstrap.Modal(document.getElementById("register-modal"));
-  const email = emailEl.value;
-  const name = nameEl.value;
+  var myModal = new bootstrap.Modal(document.getElementById("login-modal"));
+  const Email = emailEl.value;
   axios
-    .post("http://localhost:5000/register/generate", {
-      fullname: name,
-      email: email,
-    })
+    .post("http://localhost:5000/login/get", { email: Email })
     .then((res) => {
       // console.log(res, "apiresponse")
       // console.log(res.data)
