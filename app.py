@@ -156,17 +156,17 @@ def login():
 
     if data is not None:
         response = jsonify({
-            "Response": 200,
-            "Message": "Login successful",
-            "User": {
-                "Email": data[0],
-                "FullName": data[1]
+            "response": 200,
+            "message": "Login successful",
+            "user": {
+                "email": data[0],
+                "fullName": data[1]
             }
         })
     else:
         response = jsonify({
-            "Response": 401,
-            "Message": "Unauthorized"
+            "response": 401,
+            "message": "Unauthorized"
         })
         response.status_code = 401
 

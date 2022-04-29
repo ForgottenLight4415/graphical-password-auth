@@ -74,6 +74,8 @@ loginFormEL.addEventListener("submit", function (e) {
         .then((res) => {
           if (res.status == 200) {
             console.log(res);
+            const user = res.data.user;
+            localStorage.setItem('user',JSON.stringify(user));
             window.location.href = "homepage.html";
           }
         })

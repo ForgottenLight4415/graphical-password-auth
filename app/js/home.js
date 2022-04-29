@@ -17,24 +17,22 @@
         }
 
     })
-    // Add New Member Form Handling
-    const addMemberFormNameEl = document.getElementById('addMemberFormName');
-    const addMemberFormEmailEl = document.getElementById('addMemberFormEmail');
 
-    formEl.addEventListener('submit', (e) => {
-        e.preventDefault()
-        const name = addMemberFormNameEl.value
-        const email = addMemberFormEmailEl.value
-        const data = {
-            name,
-            email,
-        }
-        requests.addMember(data)
-            .then(() => {
-                window.location.reload()
-            })
-            .catch(() => {
+    const nameEl = document.getElementById('name')
+    const emailEl = document.getElementById('email')
+    try {
+    const user = JSON.parse(localStorage.getItem('user'))
+    nameEl.innerHTML = `Welcome, ${user.fullName}`
+    emailEl.innerHTML = `Email: ${user.email}` 
+    } catch (error) {
+        window.location.href = "/Login.html"
+    }
 
-            })
-    })
+    const logoutEl = document.getElementById('logout')
+    logoutEl.addEventListener("click",function(){localStorage.removeItem('user')
+    window.location.href = "/Login.html"
+})
+    
+  
+
 
