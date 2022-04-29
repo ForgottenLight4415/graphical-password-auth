@@ -52,7 +52,10 @@ def generate_images_for_registration():
         # Generating patterns
         links = []
         for i in images:
-            links.append(f"http://localhost:5000/get-files/{i}.jpg")
+            links.append({
+                "ImageId": i,
+                "ImageUrl": f"http://localhost:5000/get-files/{i}.jpg"
+            })
         response = jsonify({
             "Images": links
         })
@@ -115,7 +118,10 @@ def get_images_for_login():
 
         pattern_images = []
         for i in data[0].split(','):
-            pattern_images.append(f"http://localhost:5000/get-files/{i.strip()}.jpg")
+            pattern_images.append({
+                "ImageId": i,
+                "ImageUrl": f"http://localhost:5000/get-files/{i.strip()}.jpg"
+            })
 
         random.shuffle(pattern_images)
         response_dict["Images"] = pattern_images
