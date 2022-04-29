@@ -17,7 +17,7 @@ table{
  position: absolute;
  z-index: 2;
  left: 50%;
- top: 50%;
+ top: 57%;
  transform: translate(-50%,-50%);
  width: 60%; 
  border-collapse: collapse;
@@ -48,4 +48,17 @@ tr{
 }
 tr:nth-child(even){
  background-color: #eeeeee;
+}
+
+.text-center{
+    padding-top: 0.9em;
+    font-size: x-large;
+    font-weight: 400;
+}
+
+.center{
+    text-align: center;
+    padding-top: 0.2em;
+    font-size: large;
+    font-weight: 400;
 }
