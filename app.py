@@ -151,9 +151,11 @@ def login():
     credentials = json.loads(request.data)
     email = credentials["email"]
     sequence = format_image_save(credentials["sequence"])
+    hs = hashlib.sha256(sequence.encode('utf-8')).hexdigest()
+    print(hs)
     cursor = mysql.connection.cursor()
     cursor.execute("""SELECT email, full_name FROM users WHERE email= %s AND password= %s LIMIT 1""",
-                   (email, hashlib.sha256(sequence.encode('utf-8')).hexdigest())
+                   (email, hs)
                    )
     data = cursor.fetchone()
 
