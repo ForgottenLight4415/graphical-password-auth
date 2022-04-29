@@ -1,89 +1,74 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto');
+@import url("https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto");
 
 * {
-    margin: 0;
-    padding: 0;
-    outline: 0;
-}
-
-
-.filter {
-
-    background: #111719;
-    background: -moz-linear-gradient(90deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.12) 100%);
-    background: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.12) 100%);
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.12) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e94ca1", endColorstr="#c74ae9", GradientType=1);
-    opacity: .7;
+  margin: 0;
+  padding: 0;
+  outline: 0;
 }
 
 table {
-    position: absolute;
-    z-index: 2;
-    left: 50%;
-    top: 57%;
-    transform: translate(-50%, -50%);
-    width: 60%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    box-shadow: 0 2px 15px #111719;
-    border-radius: 12px 12px 0 0;
-    overflow: hidden;
-
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 57%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  box-shadow: 0 2px 15px #111719;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
 }
 
 th {
-    padding: 15px 20px;
-    align-items: center;
-
+  padding: 15px 20px;
+  align-items: center;
 }
 
 td {
-    padding: 15px 20px;
-    align-items: center;
+  padding: 15px 20px;
+  align-items: center;
 }
 
-
 th {
-    background-color: #111719;
-    color: white;
-    font-family: 'Open Sans', Sans-serif;
-    font-weight: 200;
-    text-transform: uppercase;
-
+  background-color: #111719;
+  color: white;
+  font-family: "Open Sans", Sans-serif;
+  font-weight: 200;
+  text-transform: uppercase;
 }
 
 tr {
-    width: 100%;
-    background-color: #111719;
-    color: #eeeeee;
-    font-family: 'Montserrat', sans-serif;
+  width: 100%;
+  background-color: #111719;
+  color: #eeeeee;
+  font-family: "Montserrat", sans-serif;
 }
 
 tr:nth-child(even) {
-    background-color: #eeeeee;
+  background-color: #eeeeee;
 }
 
 .text-center {
-    padding-top: 0.9em;
-    font-size: x-large;
-    font-weight: 400;
+  padding-top: 0.9em;
+  font-size: x-large;
+  font-weight: 400;
 }
 
 .center {
-    text-align: center;
-    padding-top: 0.2em;
-    font-size: large;
-    font-weight: 400;
+  text-align: center;
+  padding-top: 0.2em;
+  font-size: large;
+  font-weight: 400;
 }
 
-.navbar .btn-outline{
-    border-color: #0db8de;
-    color: #0db8de;
-    font-weight: bold;
+.navbar .btn-outline {
+  border-color: #0db8de;
+  color: #0db8de;
+  font-weight: bold;
 }
 
-.navbar .btn-outline:hover{
-    background-color: #0db8de;
-    color:white
+.navbar .btn-outline:hover {
+  background-color: #0db8de;
+  color: white;
 }
