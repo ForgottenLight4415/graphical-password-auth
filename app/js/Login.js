@@ -1,7 +1,7 @@
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 const loginFormEL = document.getElementById("LoginForm");
 const emailEl = document.getElementById("email");
-// const passwordEl = document.getElementById('password');
+
 
 loginFormEL.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -10,8 +10,6 @@ loginFormEL.addEventListener("submit", function (e) {
   axios
     .post("http://localhost:5000/login/get", { email: Email })
     .then((res) => {
-      // console.log(res, "apiresponse")
-      // console.log(res.data)
       let dataImages = JSON.stringify(res.data.Images);
 
       localStorage.setItem("ButtonImages", dataImages);
@@ -30,7 +28,7 @@ loginFormEL.addEventListener("submit", function (e) {
           row1Data =
             row1Data +
             `<div class="col">
-                                        <button class="btn btn-bg" id="${dataImages[i].ImageId}" type="button">
+                                        <button class="logb btn btn-bg" id="${dataImages[i].ImageId}" type="button">
                                             <img src="${dataImages[i].ImageUrl}" class="img-button" alt="10">
                                         </button>
                                     </div>`;
@@ -39,7 +37,7 @@ loginFormEL.addEventListener("submit", function (e) {
           row2Data =
             row2Data +
             `<div class="col">
-                                        <button class="btn btn-bg" id="${dataImages[i].ImageId}" type="button">
+                                        <button class="logb btn btn-bg" id="${dataImages[i].ImageId}" type="button">
                                             <img src="${dataImages[i].ImageUrl}" class="img-button" alt="10">
                                         </button>
                                     </div>`;
@@ -48,7 +46,7 @@ loginFormEL.addEventListener("submit", function (e) {
           row3Data =
             row3Data +
             `<div class="col">
-                                        <button class="btn btn-bg" id="${dataImages[i].ImageId}" type="button">
+                                        <button class="logb btn btn-bg" id="${dataImages[i].ImageId}" type="button">
                                             <img src="${dataImages[i].ImageUrl}" class="img-button" alt="10">
                                         </button>
                                     </div>`;
@@ -57,20 +55,39 @@ loginFormEL.addEventListener("submit", function (e) {
         row1.innerHTML = row1Data;
         row2.innerHTML = row2Data;
         row3.innerHTML = row3Data;
-        let sequence=[];
+        let btns = document.querySelectorAll("button.logb");
+        let sequence = [];
 
-
-        let btns = document.querySelectorAll("button");
         for (i of btns) {
-            i.addEventListener("click", function () {
-                console.log(this.id);
-                sequence.push(this.id);
+          i.addEventListener("click", function () {
+            console.log(this.id);
+            sequence.push(this.id);
             console.log(sequence);
           });
         }
-
+        let loginBtn = document.getElementById("login-btn");
+        loginBtn.addEventListener("click", function () {
+          axios
+            .post("http://localhost:5000/login", {
+              sequence: sequence,
+              email: email,
+            })
+        .then((res) => {
+          if (res.status == 200) {
+            console.log(res);
+            window.location.href = "homepage.html";
+          }
+        });
+    });
         myModal.show();
       }
     })
     .catch((err) => {});
 });
+
+axios
+    .post("http://localhost:5000/login", {
+        sequence: sequence,
+        email: email,
+
+    })
