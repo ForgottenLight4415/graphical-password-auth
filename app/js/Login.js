@@ -12,6 +12,7 @@ loginFormEL.addEventListener("submit", function (e) {
     .then((res) => {
       let dataImages = JSON.stringify(res.data.Images);
 
+      localStorage.removeItem("ButtonImages");
       localStorage.setItem("ButtonImages", dataImages);
       if (localStorage.getItem("ButtonImages")) {
         console.log(1);
